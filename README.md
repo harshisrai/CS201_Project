@@ -104,8 +104,7 @@ This project implements text and image compression using multiple methods, inclu
 - The "Sample Image" folder contains `.bmp` images for testing the image compression methods.
 
 ### Custom Image Files
-- To test on different image formats like `.png` or `.jpeg`, open the image in an editor like Microsoft Paint and save it as a `.bmp` file. This standardizes the image format for compatibility with the compression code.
-
+- For compatibility with the compression algorithms, images in formats such as `.png`, `.jpeg`, or `.bmp` can be standardized by opening the image in Microsoft Paint and saving it as a `.bmp` file. This ensures uniform formatting for processing with the compression code.
 --- 
 
 This README provides all the necessary information to run and test the compression methods. Adjust file names and paths as needed, and enjoy exploring the compression techniques!
