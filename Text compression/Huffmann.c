@@ -272,7 +272,7 @@ void decodeFile(const char* encodedFilename, const char* outputFilename, Huffman
 }
 int main() {
     int freq[MAX_CHARS] = {0};  // Array to store the frequency of each character
-    const char* inputFilename = "sample4.txt";       // Original text file
+    const char* inputFilename = "sample.txt";       // Original text file
     const char* encodedFilename = "compressed.bin"; // Encoded binary file
     const char* decodedFilename = "decoded.txt";  // File to store the decoded text
 

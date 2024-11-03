@@ -1,10 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
+#include <psapi.h>
+#include <time.h>
 
 #define MAX_DICT_SIZE 4096   // LZW dictionary size (12-bit)
 #define INIT_DICT_SIZE 256   // Initial dictionary size (ASCII)
 #define HASH_TABLE_SIZE 8192 // Hash table size, typically larger than dictionary size
+
+void printMemoryUsage() {
+    PROCESS_MEMORY_COUNTERS pmc;
+    if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
+        printf("Peak memory usage: %lu KB\n", pmc.PeakWorkingSetSize / 1024);
+    }
+}
 
 // Structure to represent a dictionary entry with linked list (for collision handling)
 typedef struct DictionaryEntry {
@@ -170,6 +180,10 @@ void saveArrayToBinFile(const char *filename, int *arr, size_t size) {
 
 // Main function to test LZW compression
 int main() {
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
+
     // Read the input file as a string
     printf("Enter the filename: ");
     char filename[256];  // Adjust the size as needed
@@ -202,6 +216,11 @@ int main() {
     //print the sizes of each file
     printf("Size of compressed file: %f KB\n", size1/1000);
     printf("Size of original file: %f KB\n", size2/1000);
+
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Time taken: %f seconds\n", cpu_time_used);
     
+    printMemoryUsage();
     return 0;
 }

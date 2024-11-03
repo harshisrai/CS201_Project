@@ -1,9 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
+#include <psapi.h>
+#include <time.h>
 
 #define MAX_DICT_SIZE 4096   // Maximum dictionary size for LZW (12-bit codes)
 #define INIT_DICT_SIZE 256   // Initial dictionary size (ASCII)
+
+void printMemoryUsage() {
+    PROCESS_MEMORY_COUNTERS pmc;
+    if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
+        printf("Peak memory usage: %lu KB\n", pmc.PeakWorkingSetSize / 1024);
+    }
+}
+
 
 // Function to perform LZW decompression
 char* LZWDecompress(int* codes, int num_codes) {
@@ -111,6 +122,10 @@ int* readArrayFromBinFile(const char *filename, int *size) {
 
 // Example usage
 int main() {
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
+
     // Read the compressed codes from a binary file
     int num_codes;
     int* codes = readArrayFromBinFile("compressed.bin", &num_codes);
@@ -134,6 +149,9 @@ int main() {
     double size2= (double)ftell(file2);
     printf("Size of compressed file: %f KB\n", size1/1000);
     printf("Size of decompressed file: %f KB\n", size2/1000);
-
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Time taken: %f seconds\n", cpu_time_used);
+    printMemoryUsage();
     return 0;
 }
